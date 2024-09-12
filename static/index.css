@@ -1,0 +1,36 @@
+body {
+    background-color: #000000;
+}
+
+#bannerLogoMain {
+    margin-top: 0.2rem;
+    margin-left: 0.6rem;
+    margin-bottom: 0.1rem;
+    width: 20rem;
+    display: inline-block;
+}
+
+#navbarHyperLinks {
+    position: absolute;
+    right: 2rem;
+    top: 2.25rem;
+    display: inline-block;
+}
+
+#navbarHyperLinks a {
+    font-size: 1.25rem;
+    margin-left: 3rem;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    color: #39A2DB;
+}
+
+#navbarHyperLinks a:hover {
+    color: #164863;
+}
+
+.navbar1 {
+    position: relative;
+    background-color: #0E0E0E;
+    padding-bottom: 0.8rem;
+}

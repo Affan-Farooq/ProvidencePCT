@@ -1,0 +1,116 @@
+body {
+    background-color: #000000;
+}
+
+#form-container
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 40vw;
+    background-color: #080808;
+    text-align: center;
+}
+
+.callToAction h1 {
+    color: white;
+    font-size: 3rem;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 3rem;
+}
+
+.btn {
+    width: 14rem;
+    background-color: #1640D6;
+    border-color: #1640D6;
+
+}
+
+.btn:hover {
+    background-color: #0000F0;
+    border-color: #0000F0;
+}
+
+.btn:active {
+    background-color: #0000F0;
+    border-color: #0000F0;
+}
+
+.btn:focus {
+    background-color: #0000F0;
+    border-color: #0000F0;
+}
+
+.btn-secondary.btn-lg:active, .btn-secondary.btn-lg:focus {
+    background-color: #0000F0;
+    border-color: #0000F0;
+    box-shadow: none;
+}
+
+.btn-container
+{
+    margin-bottom: 2.5rem;
+}
+
+.callToAction {
+    margin-top: 15rem;
+}
+
+#logoMain {
+    margin-top: 8rem;
+    width: 4rem;
+}
+
+#bannerLogoMain {
+    margin-top: 0rem;
+    margin-left: 0.6rem;
+    width: 20rem;
+}
+
+.supplementary {
+    margin-top: 0.25rem;
+    margin-left: 0.2rem;
+    color: grey;
+}
+
+a {
+    font-size: 0.75rem;
+    color: grey;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+#animation {
+    font-size: 3rem;
+    font-family: 'Roboto', sans-serif;
+    color: #39A2DB;
+}
+
+#animationContainer {
+    margin-top: 19.5rem;
+    margin-left: 1rem;
+}
+
+span {
+    padding: 1px;
+    padding-right: 3px;
+    margin-right: 0.6rem;
+    border-right: 1.5px solid #125D98;
+    animation: blink 0.75s infinite;
+}
+
+@keyframes blink {
+    from {
+      border: none;
+    }
+    to {
+      border-color: 1.5px solid #000000;
+    }
+  }
+}

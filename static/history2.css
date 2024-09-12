@@ -1,0 +1,37 @@
+.synopsis {
+    position: absolute;
+    top: 11rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+}
+
+.synopsis h1, h3 {
+    display: inline;
+    margin: 0;
+}
+
+.card {
+    position: absolute;
+    left: 20rem;
+    margin-top: 8rem;
+    width: 50rem;
+    background-color: black;
+    border: 1px solid white;
+    color: white;
+}
+
+.card-footer {
+    color: white !important;
+    border-top: 1px solid white;
+}
+
+.card-header {
+    color: white !important;
+    border-bottom: 1px solid white;
+}
+
+img {
+    width: 3rem;
+}

@@ -1,0 +1,114 @@
+.synopsis {
+    display: inline-block;
+    position: absolute;
+    top: 10rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+img {
+    width: 4rem;
+    margin-right: 1.5rem;
+    margin-bottom: 1.9rem;
+}
+
+#cryptoName {
+    display: inline-block;
+    color: white;
+    font-size: 3.5rem;
+    margin-right: 1rem;
+}
+
+#ticker {
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #7D7C7C;
+}
+
+#badge {
+    display: inline-block;
+    margin-left: 2rem;
+    position: relative;
+    bottom: 0.6rem;
+}
+
+#pc24h {
+    color: white;
+}
+
+.custom-badge {
+    background-color: #332C39 !important;
+}
+
+#balanceBadge {
+    margin-top: 1rem;
+    color: #39A2DB;
+    background-color: black !important;
+    border: 1px solid #39A2DB;
+}
+
+h4 {
+    margin-top: 1rem;
+}
+
+label {
+    margin-top: 2rem;
+    color: #39A2DB
+}
+
+#rangeValue {
+    color: #39A2DB
+}
+
+#customRange2 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#total {
+    margin-top: 2rem;
+}
+
+#buyImg {
+    width: 1rem;
+    margin: 0;
+    margin-left: 0.35rem;
+    margin-right: 0.35rem;
+}
+
+p {
+    font-size: 1rem;
+    margin-bottom: 0;
+    display: inline-block;
+    color: #39A2DB;
+}
+
+button {
+    margin-top: 2rem;
+    background-color: black !important;
+    border: 1px solid #39A2DB !important;
+}
+
+button:hover {
+    border: 1px solid purple !important;
+}
+
+button:hover p {
+    color: purple;
+}
+
+#errorNotif {
+    position: absolute;
+    top: 6.75rem;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    color: #BE3144;
+    border: 1px solid #BE3144;
+    width: 12rem;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+}

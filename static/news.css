@@ -1,0 +1,58 @@
+.col-lg-4 {
+    padding: 1rem;
+}
+
+.container-fluid {
+    margin-top: 2rem;
+}
+
+.full-size-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-right: 2px solid #39A2DB;
+}
+
+.card {
+    background-color: black;
+    border: 2px solid #39A2DB;
+}
+
+.card-title {
+    color: #39A2DB;
+    font-size: 1rem;
+}
+
+.card-text {
+    color: white;
+    font-size: 0.75rem;
+}
+
+.text-body-secondary {
+    color: grey !important;
+}
+
+.text-body-secondary a {
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    text-decoration: none;
+    color: #39A2DB;
+}
+
+.text-body-secondary a:hover {
+    color: #0000FF;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+.companyLogo {
+    width: 1.25rem;
+    margin-right: 0.1rem;
+    margin-left: 0.1rem;
+}

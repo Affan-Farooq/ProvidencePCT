@@ -1,0 +1,86 @@
+#badge1, #badge2, #badge3, #badge4 {
+    position: relative;
+    bottom: 0.6rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+#pc24h1, #pc24h2, #pc24h3, #pc24h4 {
+    color: #39A2DB;
+    font-weight: normal;
+}
+
+#cash, #accval, #portval {
+    color: purple;
+    font-weight: normal;
+    font-size: 1.25rem;
+    margin-left: 0.1rem;
+    margin-left: 0.2rem;
+}
+
+.custom-badge {
+    background-color: black !important;
+    border: 1px solid #39A2DB;
+}
+
+.synopsis {
+    position: absolute;
+    top: 11rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+}
+
+.synopsis h1, h3 {
+    display: inline;
+    margin: 0;
+}
+
+.card {
+    position: absolute;
+    left: 20rem;
+    margin-top: 4rem;
+    width: 50rem;
+    background-color: black;
+    border: 1px solid white;
+    color: white;
+}
+
+.card-footer {
+    color: white !important;
+    border-top: 1px solid white;
+}
+
+.card-header {
+    color: white !important;
+    border-bottom: 1px solid white;
+}
+
+img {
+    width: 3rem;
+}
+
+.table {
+    width: 30rem;
+    position: absolute;
+    top: 28rem;
+    left: 30rem;
+}
+
+h6 {
+    margin-bottom: 0;
+}
+
+td .badge {
+    background-color: #040D12 !important;
+    color: #39A2DB;
+}
+
+#mc {
+    color: #39A2DB;
+}
+
+#pc {
+    color: #39A2DB;
+}

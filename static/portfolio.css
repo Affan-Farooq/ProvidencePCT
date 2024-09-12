@@ -1,0 +1,118 @@
+#badge1, #badge2, #badge3, #badge4 {
+    position: relative;
+    bottom: 0.6rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#pc24h1, #pc24h2, #pc24h3, #pc24h4 {
+    color: #39A2DB;
+    font-weight: normal;
+}
+
+#cash, #accval, #portval {
+    color: purple;
+    font-weight: normal;
+    font-size: 1.25rem;
+    margin-left: 0.1rem;
+}
+
+.custom-badge {
+    background-color: black !important;
+    border: 1px solid #39A2DB;
+}
+
+.synopsis {
+    position: absolute;
+    top: 10rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+}
+
+.synopsis h1, h3 {
+    display: inline;
+    margin: 0;
+}
+
+.tabularData {
+    position: absolute;
+    top: 18rem;
+    left: 6rem;
+    width: 20rem;
+}
+
+img {
+    width: 2rem;
+}
+
+h6 {
+    margin-bottom: 0;
+}
+
+h6 .badge {
+    background-color: black !important;
+    color: #39A2DB;
+}
+
+h6 button {
+    size: 3rem;
+}
+
+.vertical-center {
+    vertical-align: middle;
+    horizontal-align: center;
+}
+
+th {
+    color: purple;
+}
+
+#chartContainer {
+    position: absolute;
+    width: 20rem;
+    right: 11rem;
+    top: 16rem;
+
+}
+
+.performance {
+    width: 30rem;
+    position: absolute;
+    top: 41.5rem;
+    right: 5.75rem;
+}
+
+h6 {
+    margin-bottom: 0;
+}
+
+td .badge {
+    background-color: #040D12 !important;
+    color: #39A2DB;
+}
+
+#mc {
+    color: #39A2DB;
+}
+
+#pc {
+    color: #39A2DB;
+}
+
+h5 {
+    margin-bottom: 0;
+}
+
+#aa {
+    color: #A61F69;
+    background-color: black !important;
+    border: 1px solid #A61F69;
+}
+
+.aaa {
+    position: absolute;
+    right: 9.85rem;
+    top: 38rem;
+}

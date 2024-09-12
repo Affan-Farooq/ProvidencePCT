@@ -1,0 +1,139 @@
+.synopsis {
+    display: inline-block;
+    position: absolute;
+    top: 10rem;
+    left: 4.5rem;
+}
+
+#buyImg {
+    width: 2rem;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+img {
+    width: 4rem;
+    margin-right: 1.5rem;
+    margin-bottom: 1.9rem;
+}
+
+#cryptoName {
+    display: inline-block;
+    color: white;
+    font-size: 3.5rem;
+    margin-right: 1rem;
+}
+
+#ticker {
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #7D7C7C;
+}
+
+#badge {
+    display: inline-block;
+    margin-left: 2rem;
+    position: relative;
+    bottom: 0.6rem;
+}
+
+#pc24h {
+    color: white;
+}
+
+.custom-badge {
+    background-color: #332C39 !important;
+}
+
+.tabularData {
+    margin-top: 13rem;
+    margin-left: 4rem;
+}
+
+.my-custom-table {
+    width: 35rem;
+}
+
+.property {
+    width: 10rem;
+}
+
+h5 {
+    margin-bottom: 0;
+    display: inline-block;
+    margin-left: 0.5rem;
+}
+
+td .badge {
+    background-color: #040D12 !important;
+    color: #39A2DB;
+}
+
+#open {
+    color: #D8D9DA;
+}
+
+#high {
+    color: #82CD47;
+}
+
+#low {
+    color: #D80032;
+}
+
+#myChart {
+    position: absolute;
+    left: 46rem;
+    top: 16rem;
+    width: 40rem;
+    height: 40rem;
+    background-color: black;
+}
+
+.secondaryTabular {
+    position: absolute;
+    left: 49rem;
+    bottom: 3.8rem;
+}
+
+.shigh span {
+    color: #82CD47;
+}
+
+.slow span {
+    color: #D80032;
+}
+
+.formDiv {
+    position: absolute;
+    right: 3rem;
+    top: 9.5rem;
+}
+
+.formDiv form {
+    display: inline-block;
+}
+
+.buyBtn {
+    padding: 0.4rem;
+    margin-left: 1rem;
+    background-color: #332C39 !important;
+    color: #39A2DB;
+    border: 1px solid #39A2DB;
+}
+
+.buyBtn:hover {
+    border: 1px solid #4E4FEB;
+    color: #4E4FEB;
+}
+
+#buyImg {
+    margin-left: 0.25rem;
+}
+
+p {
+    position: relative;
+    top: 0.15rem;
+    display: inline-block;
+    margin-bottom: 0;
+}
