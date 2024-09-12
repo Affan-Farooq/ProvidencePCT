@@ -1,0 +1,70 @@
+{% extends "mainTemplate.html" %}
+
+{% block style %}<link href="/static/buy.css" rel="stylesheet">{% endblock %}
+
+{% block JS %}
+    <script src="/static/buy.js"></script>
+{% endblock %}
+
+{% block title %}ProvPCT: Marketplace{% endblock %}
+
+{% block main %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <div id="errorNotif" class="alert {{ category }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="synopsis">
+    <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{ data['data'][ticker]['id'] }}.png">
+    <h1 id="cryptoName">{{ data['data'][ticker]['name'] }}</h1>
+    <p id="ticker">{{ ticker }}</p>
+    <h2 id="badge"><span id="pc24h" class="badge bg-secondary custom-badge">{{ data['data'][ticker]['quote']['USD']['percent_change_24h'] | percent }}</span></h2>
+
+    <h3 id="balance"><span id="balanceBadge" class="badge bg-secondary custom-badge">Current balance: {{ user_data[0]['cash'] | usd }}</span></h3>
+    <h4 id="currPrice"><span id="balanceBadge" class="badge bg-secondary custom-badge">Current {{ ticker }} Price: {{ data['data'][ticker]['quote']['USD']['price'] | usd }}</span></h4>
+
+    <form action="{{url_for('buy', ticker=ticker) }}", method="post">
+        <label for="customRange2" class="form-label">Specify the amount of {{ ticker }} tokens you would like to purchase:</label>
+        <input type="range" class="form-range" min="1" max="100" id="customRange2" value="1" name="units">
+        <span id="rangeValue">1 Unit(s)</span>
+
+        <h5 id="total"><span id="Subtotal" class="badge bg-secondary custom-badge">Total: {{ data['data'][ticker]['quote']['USD']['price'] | usd }} USD</span></h5>
+
+        <button type="submit" class="btn btn-secondary btn-lg buyBtn custom-buy-btn">
+            <p id="checkout">Buy 1 </p><img id="buyImg" src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{ data['data'][ticker]['id'] }}.png"><p>{{ ticker }} Token(s)</p>
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block GJs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function (event) {
+        var rangeInput = document.getElementById('customRange2');
+        var rangeValueDisplay = document.getElementById('rangeValue');
+        var totalDisplay = document.getElementById('Subtotal');
+        var checkout = document.getElementById('checkout');
+
+        var currencyFormatter = new Intl.NumberFormat('en-US', {
+            style: 'decimal',
+            minimumFractionDigits: 5,
+            maximumFractionDigits: 5,
+        });
+
+        rangeInput.addEventListener('input', function (event) {
+            rangeValueDisplay.textContent = rangeInput.value + " Unit(s)";
+            checkout.textContent = "Buy " + rangeInput.value + " ";
+            var total = {{ data['data'][ticker]['quote']['USD']['price'] }} * rangeInput.value;
+            totalDisplay.innerHTML = "Total: $" + currencyFormatter.format(total) + " USD";
+        });
+    });
+</script>
+
+{% endblock %}

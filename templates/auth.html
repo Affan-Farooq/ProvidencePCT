@@ -1,0 +1,15 @@
+{% extends "authTemplate.html" %}
+
+{% block title %}ProvPCT: Authentication{% endblock %}
+
+{% block main %}
+    <div class="callToAction">
+        <h1>Get Started</h1>
+        <form class="btn-container" action="/auth/login" method="get">
+            <button type="submit" class="btn btn-secondary btn-lg">Log In</button>
+        </form>
+        <form class="btn-container" action="/auth/signup" method="get">
+            <button type="submit" class="btn btn-secondary btn-lg">Sign Up</button>
+        </form>
+    </div>
+{% endblock %}

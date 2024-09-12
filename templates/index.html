@@ -1,0 +1,324 @@
+{% extends "mainTemplate.html" %}
+
+{% block style %}<link href="/static/portfolio.css" rel="stylesheet">{% endblock %}
+
+{% block JS %}
+    <script src="/static/portfolio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block title %}ProvPCT: Portfolio{% endblock %}
+
+{% block main %}
+
+<div class="synopsis">
+    <h1 id="badge1"><span id="pc24h1" class="badge bg-secondary custom-badge">Welcome, {{ data['name'] }}</span></h1>
+    <h3 id="badge2"><span id="pc24h2" class="badge bg-secondary custom-badge">Cash: <h3 id="cash">{{ data['cash'] | usd }}</h3></span></h3>
+    <h3 id="badge3"><span id="pc24h3" class="badge bg-secondary custom-badge">Holdings Value: <h3 id="portval">{{ data['portfolio_value'] | usd }}</h3></span></h3>
+    <h3 id="badge4"><span id="pc24h4" class="badge bg-secondary custom-badge">Portfolio Value: <h3 id="accval">{{ data['account_value'] | usd }}</h3></span></h3>
+</div>
+
+<div class="tabularData">
+    <table class="table table-dark table-striped table-hover my-custom-table">
+        <tbody>
+            <thead>
+                <tr class="text-center">
+                  <th scope="col" style="color: #F9E2AF;">Icon</th>
+                  <th scope="col" style="color: #F9E2AF;">Name</th>
+                  <th scope="col" style="color: #F9E2AF;">Ticker</th>
+                  <th scope="col" style="color: #F9E2AF;">Shares</th>
+                  <th scope="col" style="color: #F9E2AF;">Δ%</th>
+                  <th scope="col" style="color: #F9E2AF;">Price</th>
+                  <th scope="col" style="color: #F9E2AF;">Total</th>
+                  <th scope="col" style="color: #F9E2AF;">Sell</th>
+                </tr>
+            </thead>
+            {% for holding in data['tabular_data'] %}
+                <tr>
+                    <td class="text-center vertical-center"><img src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{ holding['id'] }}.png"></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['name'] }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['ticker'] }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['shares'] }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span id="{{ holding['ticker'] }}" class="badge bg-secondary {{ holding['ticker'] }}_pc">{{ holding['pc'] | percent }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span id="{{ holding['name'] }}_pr" class="badge bg-secondary">{{ holding['price'] | usd }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span id="{{ holding['id'] }}" class="badge bg-secondary">{{ holding['total'] | usd }}</span></h6></td>
+                    <td class="text-end vertical-center"><form action="{{url_for('sell', ticker=holding['ticker'], shares=holding['shares']) }}"><button type="submit" class="btn btn-outline-info btn-sm">Sell</button></form></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div id="chartContainer">
+    <canvas id="myPolarChart"></canvas>
+</div>
+
+<div class="aaa">
+    <h5><span id="aa" class="badge bg-secondary">Performance (Relative to Account Inception)</span></h5>
+</div>
+
+<div class="performance">
+    <table class="table table-dark table-striped table-hover my-custom-table">
+        <tbody>
+            <tr class="table-active">
+                <td class="property text-start"><h6><span class="badge bg-secondary">Percentage</span></h6></td>
+                <td class="text-end align-middle"><h6><span id="pc" class="badge bg-secondary">{{ data['percent_performance'] | percent }}</span></h6></td>
+            </tr>
+            <tr>
+                <td class="property text-start"><h6><span class="badge bg-secondary">Monetary</span></h6></td>
+                <td class="text-end align-middle"><h6><span id="mc" class="badge bg-secondary">{{ data['monetary_performance'] | monetaryChange }}</span></h6></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
+
+{% block GJs%}
+
+<script>
+
+    function formatMonetaryValue(value) {
+        const roundedValue = value.toFixed(5);
+
+        const parts = roundedValue.split('.');
+        const wholePart = parts[0];
+        const decimalPart = parts[1];
+
+        const withCommas = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        return `$${withCommas}.${decimalPart}`;
+    }
+
+    function formatMonetaryChange(value) {
+        const roundedValue = parseFloat(value.toFixed(5));
+
+        const parts = Math.abs(roundedValue).toString().split('.');
+        const wholePart = parts[0];
+        const decimalPart = parts[1] || '00';
+
+        const withCommas = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        if (roundedValue > 0) {
+            return `+$${withCommas}.${decimalPart}`;
+        } else if (roundedValue < 0) {
+            return `-$${withCommas}.${decimalPart}`;
+        } else {
+            return `$${withCommas}.${decimalPart}`;
+        }
+    }
+
+    function formatPercentChange(value) {
+        const roundedValue = parseFloat(value.toFixed(2));
+
+        const parts = Math.abs(roundedValue).toString().split('.');
+        const wholePart = parts[0];
+        const decimalPart = parts[1] || '00';
+
+        const withCommas = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        if (roundedValue > 0) {
+            return `+${withCommas}.${decimalPart}%`;
+        } else if (roundedValue < 0) {
+            return `-${withCommas}.${decimalPart}%`;
+        } else {
+            return `${withCommas}.${decimalPart}%`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function(event) {
+        async function fetchFlaskRoute() {
+            try {
+                const tickerList = JSON.parse({{ tickerList | tojson | safe }});
+                let queryString = tickerList.join(',');
+
+                let response = await fetch('/getNovelData?q=' + queryString);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                let data = await response.json();
+
+                console.log(data);
+
+                document.getElementById("cash").innerText = formatMonetaryValue(data.cash);
+                document.getElementById("portval").innerText = formatMonetaryValue(data.portfolio_value);
+                document.getElementById("accval").innerText = formatMonetaryValue(data.account_value);
+
+                var mcElement = document.getElementById("mc");
+                var monetaryValue = formatMonetaryChange(data.monetary_performance);
+
+                if (data.monetary_performance > 0) {
+                    mcElement.style.color = '#82CD47';
+                } else if (data.monetary_performance < 0) {
+                    mcElement.style.color = '#D80032';
+                } else {
+                    mcElement.style.color = '#39A2DB';
+                }
+
+                mcElement.innerText = monetaryValue;
+
+                var pcElement = document.getElementById("pc");
+                var percentValue = formatPercentChange(data.percent_performance);
+
+                if (data.percent_performance > 0) {
+                    pcElement.style.color = '#82CD47';
+                } else if (data.percent_performance < 0) {
+                    pcElement.style.color = '#D80032';
+                } else {
+                    pcElement.style.color = '#39A2DB';
+                }
+
+                pcElement.innerText = percentValue;
+
+                for (let id in data.tabular_data)
+                {
+                    var PC = document.querySelector('.' + data.tabular_data[id].ticker + '_pc');
+                    var PR = document.getElementById(data.tabular_data[id].name + "_pr");
+                    var TV = document.getElementById(data.tabular_data[id].id);
+
+                    var PCV = formatPercentChange(data.tabular_data[id].pc);
+
+                    if (data.tabular_data[id].pc > 0) {
+                        PC.style.color = '#82CD47';
+                    } else if (data.tabular_data[id].pc < 0) {
+                        PC.style.color = '#D80032';
+                    } else {
+                        PC.style.color = '#39A2DB';
+                    }
+
+                    PC.innerText = PCV;
+
+                    var PRV = formatMonetaryValue(data.tabular_data[id].price);
+                    var TVV = formatMonetaryValue(data.tabular_data[id].total);
+                    PR.innerText = PRV;
+                    TV.innerText = TVV;
+
+                }
+
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+            }
+        }
+
+        setTimeout(() => {
+            fetchFlaskRoute();
+            setInterval(fetchFlaskRoute, 20000);
+        }, 20000);
+    });
+
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var jsArrayString = {{ tickerList | tojson | safe }};
+        var jsArray = JSON.parse(jsArrayString);
+
+        for (var i = 0; i < jsArray.length; i++) {
+            var percentChange = document.getElementById(jsArray[i]);
+            var pc24h = percentChange.innerText.slice(0, -1);
+            var pcFloat = parseFloat(pc24h);
+
+            if (pcFloat > 0) {
+                percentChange.style.color = '#82CD47';
+            } else if (pcFloat < 0) {
+                percentChange.style.color = '#D80032';
+            } else {
+                percentChange.style.color = '#39A2DB';
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var percentChange = document.getElementById('pc');
+        var monetaryChange = document.getElementById('mc');
+
+        var pc = "{{ data['percent_performance'] }}";
+        var mc = "{{ data['monetary_performance'] }}";
+
+        var pcFloat = parseFloat(pc);
+        var mcFloat = parseFloat(mc);
+
+        if (pcFloat > 0) {
+            percentChange.style.color = '#82CD47';
+        } else if (pcFloat < 0) {
+            percentChange.style.color = '#D80032';
+        } else {
+            percentChange.style.color = '#39A2DB';
+        }
+
+        if (mcFloat > 0) {
+            monetaryChange.style.color = '#82CD47';
+        } else if (mcFloat < 0) {
+            monetaryChange.style.color = '#D80032';
+        } else {
+            monetaryChange.style.color = '#39A2DB';
+        }
+
+    });
+
+    function getRandomColorWithOpacity(opacity) {
+        function randomChannel() {
+            return Math.floor(Math.random() * 256);
+        }
+        return 'rgba(' + randomChannel() + ', ' + randomChannel() + ', ' + randomChannel() + ', ' + opacity + ')';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('myPolarChart').getContext('2d');
+        var tickerList2 = JSON.parse({{ tickerList2 | tojson | safe }});
+        var polarData = JSON.parse({{ polarData | tojson | safe }});
+
+        var backgroundColors = polarData.map(function() {
+            return getRandomColorWithOpacity(0.35);
+        });
+
+        var myPolarChart = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: tickerList2,
+                datasets: [{
+                    label: 'Portfolio Value Composition',
+                    data: polarData,
+                    backgroundColor: backgroundColors,
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    borderWidth: 2,
+                    hoverBorderColor: 'rgba(255, 255, 255, 0.25)'
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        pointLabels: {
+                            display: true,
+                            centerPointLabels: true,
+                            font: {
+                                size: 13
+                            }
+                        },
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.2)',
+                            z: -1
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)',
+                            z: -1
+                        },
+                        beginAtZero: true,
+                        ticks: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    });
+
+
+</script>
+
+{% endblock %}

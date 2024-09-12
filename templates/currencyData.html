@@ -1,0 +1,147 @@
+{% extends "mainTemplate.html" %}
+
+{% block style %}<link href="/static/currencyData.css" rel="stylesheet">{% endblock %}
+
+{% block JS %}
+    <script src="/static/currencyData.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block title %}ProvPCT: Marketplace{% endblock %}
+
+{% block main %}
+
+<div class="formDiv">
+    <form id="search" action="/marketplace" method="get">
+        <button type="submit" class="btn btn-outline-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            Search
+        </button>
+    </form>
+    <form id="buy" action="{{url_for('buy', ticker=ticker) }}" method="get">
+        <button type="submit" class="btn btn-secondary btn-lg buyBtn custom-buy-btn">
+            <p>Buy {{ ticker }}</p>
+            <img id="buyImg" src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{ data['data'][ticker]['id'] }}.png">
+        </button>
+    </form>
+</div>
+
+<div class="synopsis">
+    <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{ data['data'][ticker]['id'] }}.png">
+    <h1 id="cryptoName">{{ data['data'][ticker]['name'] }}</h1>
+    <p id="ticker">{{ ticker }}</p>
+    <h2 id="badge"><span id="pc24h" class="badge bg-secondary custom-badge">{{ data['data'][ticker]['quote']['USD']['percent_change_24h'] | percent }}</span></h2>
+</div>
+
+<div class="tabularData">
+    <table class="table table-dark table-striped table-hover my-custom-table">
+        <tbody>
+            <tr class="table-active">
+                <td class="property">Date</td>
+                <td class="text-end"><h5><span class="badge bg-secondary">{{ date }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Price (USD)</td>
+                <td class="text-end"><h5><span class="badge bg-secondary">{{ data['data'][ticker]['quote']['USD']['price'] | usd }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Open</td>
+                <td class="text-end"><h5><span id="open" class="badge bg-secondary">{{ data2['data'][ticker]['quote']['USD']['open'] | usd }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">High</td>
+                <td class="text-end"><h5><span id="high" class="badge bg-secondary">{{ data2['data'][ticker]['quote']['USD']['high'] | usd }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Low</td>
+                <td class="text-end"><h5><span id="low" class="badge bg-secondary">{{ data2['data'][ticker]['quote']['USD']['low'] | usd }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Market Cap / Rank</td>
+                <td class="text-end"><h5><span class="badge bg-secondary">{{ data['data'][ticker]['quote']['USD']['market_cap'] | usd }}</span></h5><h5><span class="badge bg-secondary badgeF">{{ data['data'][ticker]['cmc_rank'] }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Volume (24h)</td>
+                <td class="text-end"><h5><span class="badge bg-secondary">{{ data['data'][ticker]['quote']['USD']['volume_24h'] | usd }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Circulating Supply</td>
+                <td class="text-end"><h5><span class="badge bg-secondary">{{ data['data'][ticker]['circulating_supply'] | intFormat }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Total Supply</td>
+                <td class="text-end"><h5><span class="badge bg-secondary">{{ data['data'][ticker]['total_supply'] | intFormat }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">Max Supply</td>
+                <td class="text-end"><h5><span class="badge bg-secondary">{{ data['data'][ticker]['max_supply'] | intFormat }}</span></h5></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="secondaryTabular">
+    <table class="table table-dark table-striped table-hover my-custom-table">
+        <tbody>
+            <tr class="table-active">
+                <td class="property">7 Day High/Low</td>
+                <td class="text-end"><h5 class="shigh"><span class="badge bg-secondary">{{ hlData[0] | usd }}</span></h5><h5 class="slow"><span class="badge bg-secondary">{{ hlData[1] | usd }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">30 Day High/Low</td>
+                <td class="text-end"><h5 class="shigh"><span class="badge bg-secondary">{{ hlData[2] | usd }}</span></h5><h5 class="slow"><span class="badge bg-secondary">{{ hlData[3] | usd }}</span></h5></td>
+            </tr>
+            <tr>
+                <td class="property">90 Day High/Low</td>
+                <td class="text-end"><h5 class="shigh"><span class="badge bg-secondary">{{ hlData[4] | usd }}</span></h5><h5 class="slow"><span class="badge bg-secondary">{{ hlData[5] | usd }}</span></h5></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<canvas id="myChart"></canvas>
+
+{% endblock %}
+
+{% block GJs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chartData['labels'] | tojson }},
+                datasets: [{
+                    label: 'Price at Close',
+                    data: {{ chartData['values'] | tojson }},
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'black',
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'grey',
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}

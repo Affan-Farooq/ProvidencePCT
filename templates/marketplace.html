@@ -1,0 +1,25 @@
+{% extends "mainTemplate.html" %}
+
+{% block style %}<link href="/static/marketplace.css" rel="stylesheet">{% endblock %}
+{% block JS %}<script src="/static/marketplace.js"></script>{% endblock %}
+
+{% block title %}ProvPCT: Marketplace{% endblock %}
+
+{% block main %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <div id="errorNotif" class="alert {{ category }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="d-flex justify-content-center">
+    <form class="form-floating" action="/marketplace" method="post">
+        <input type="text" class="form-control" id="floatingInput" placeholder="Ticker Symbol" id="ticker" name="ticker" autocomplete="off" required>
+        <label for="floatingInput">Ticker Symbol</label>
+    </form>
+</div>
+
+{% endblock %}

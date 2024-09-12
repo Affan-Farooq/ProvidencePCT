@@ -1,0 +1,81 @@
+{% extends "mainTemplate.html" %}
+
+{% block style %}<link href="/static/index2.css" rel="stylesheet">{% endblock %}
+
+{% block title %}ProvPCT: Portfolio{% endblock %}
+
+{% block main %}
+
+<div class="synopsis">
+    <h1 id="badge1"><span id="pc24h1" class="badge bg-secondary custom-badge">Welcome, {{ data['name'] }}</span></h1>
+    <h3 id="badge2"><span id="pc24h2" class="badge bg-secondary custom-badge">Cash: <h3 id="cash">{{ data['cash'] | usd}}</h3></span></h3>
+    <h3 id="badge3"><span id="pc24h3" class="badge bg-secondary custom-badge">Holdings Value: <h3 id="portval">$00.00000</h3></span></h3>
+    <h3 id="badge4"><span id="pc24h4" class="badge bg-secondary custom-badge">Portfolio Value: <h3 id="accval">{{ data['cash'] | usd }}</h3></span></h3>
+
+    <div class="card text-center">
+        <div class="card-header">
+          Portfolio
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Holdings</h5>
+          <p class="card-text">Set sail on a journey to new financial horizons with crypto. Perfect for beginners or fresh starts. Explore the dynamic world of digital currencies today!</p>
+          <a href="/marketplace" class="btn btn-primary">Marketplace</a>
+        </div>
+        <div class="card-footer text-body-secondary">
+          <img src="/static/branding/logo.png" alt="ProvidencePCT Logo">
+        </div>
+    </div>
+
+    <table class="table table-dark table-striped table-hover my-custom-table">
+        <tbody>
+            <tr>
+                <td colspan="2" class="table-active">Performance (Relative to Account Inception)</td>
+            </tr>
+            <tr class="table-active">
+                <td class="property text-start">Percentage</td>
+                <td class="text-end align-middle"><h6><span id="pc" class="badge bg-secondary">{{ data['percent_performance'] | percent }}</span></h6></td>
+            </tr>
+            <tr>
+                <td class="property text-start">Monetary</td>
+                <td class="text-end align-middle"><h6><span id="mc" class="badge bg-secondary">{{ data['monetary_performance'] | monetaryChange }}</span></h6></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
+
+{% block GJs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var percentChange = document.getElementById('pc');
+        var monetaryChange = document.getElementById('mc');
+
+        var pc = "{{ data['percent_performance'] }}";
+        var mc = "{{ data['monetary_performance'] }}";
+
+        var pcFloat = parseFloat(pc);
+        var mcFloat = parseFloat(mc);
+
+        if (pcFloat > 0) {
+            percentChange.style.color = '#82CD47';
+        } else if (pcFloat < 0) {
+            percentChange.style.color = '#D80032';
+        } else {
+            percentChange.style.color = '#39A2DB';
+        }
+
+        if (mcFloat > 0) {
+            monetaryChange.style.color = '#82CD47';
+        } else if (mcFloat < 0) {
+            monetaryChange.style.color = '#D80032';
+        } else {
+            monetaryChange.style.color = '#39A2DB';
+        }
+
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <link rel="icon" href="/static/favicon/browser.png" type="image/png">
+
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+        <link href="/static/index.css" rel="stylesheet">
+        {% block style %}{% endblock %}
+        {% block JS %}{% endblock %}
+
+        <title>{% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+
+        <div class="navbar1">
+            <img id="bannerLogoMain" src="/static/branding/horizontalBrandBanner.png" alt="ProvidencePCT Brand Logo Banner">
+            <div id="navbarHyperLinks">
+                <a href="/">Portfolio</a><a href="/news">News</a><a href="/marketplace">Marketplace</a><a href="/history">History</a><a href="/logout">Log Out</a>
+            </div>
+        </div>
+
+        {% block main %}{% endblock %}
+
+    {% block GJs %}{% endblock %}
+    </body>
+
+</html>

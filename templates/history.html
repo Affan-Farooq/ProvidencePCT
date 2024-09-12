@@ -1,0 +1,64 @@
+{% extends "mainTemplate.html" %}
+
+{% block style %}<link href="/static/history.css" rel="stylesheet">{% endblock %}
+
+{% block JS %}
+    <script src="/static/history.js"></script>
+{% endblock %}
+
+{% block title %}ProvPCT: History{% endblock %}
+
+{% block main %}
+
+<div class="tabularData">
+    <table class="table table-dark table-striped table-hover my-custom-table">
+        <tbody>
+            <thead>
+                <tr class="text-center">
+                  <th scope="col" style="color: #F9E2AF;">Icon</th>
+                  <th scope="col" style="color: #F9E2AF;">Name</th>
+                  <th scope="col" style="color: #F9E2AF;">Ticker</th>
+                  <th scope="col" style="color: #F9E2AF;">Shares</th>
+                  <th scope="col" style="color: #F9E2AF;">Type</th>
+                  <th scope="col" style="color: #F9E2AF;">Price</th>
+                  <th scope="col" style="color: #F9E2AF;">Total</th>
+                  <th scope="col" style="color: #F9E2AF;">Transacted</th>
+                </tr>
+            </thead>
+            {% for holding in data %}
+                <tr>
+                    <td class="text-center vertical-center"><img src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{ holding['id'] }}.png"></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['name'] }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['ticker'] }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['shares'] }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span id="{{ holding['num'] }}" class="badge bg-secondary">{{ holding['type'] }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['price'] | usd }}</span></h6></td>
+                    <td class="text-center vertical-center"><h6><span class="badge bg-secondary">{{ holding['total'] | usd }}</span></h6></td>
+                    <td class="text-end vertical-center"><h6><span class="badge bg-secondary">{{ holding['transacted'] }}</span></h6></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block GJs%}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var jsArray = {{ tickerList | tojson | safe }};
+
+        for (var i = 0; i < jsArray.length; i++) {
+            var purchaseType = document.getElementById(jsArray[i]);
+
+            if (purchaseType.innerText == 'Buy') {
+                purchaseType.style.color = '#82CD47';
+            } else {
+                purchaseType.style.color = '#D80032';
+            }
+        }
+    });
+</script>
+
+{% endblock %}

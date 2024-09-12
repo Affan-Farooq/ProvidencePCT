@@ -1,0 +1,44 @@
+{% extends "authTemplate.html" %}
+
+{% block style %}<link href="/static/signup.css" rel="stylesheet">{% endblock %}
+
+{% block title %}ProvPCT: Sign Up{% endblock %}
+
+{% block main %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div id="errorNotif" class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="d-flex justify-content-center">
+        <div class="callToAction">
+            <h1>Join Today!</h1>
+            <form action="/auth/signup" method="post">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="username" placeholder="Username" name="username" autocomplete="off" autofocus required>
+                    <label for="username">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password" placeholder="Password" name="password" autocomplete="off" required>
+                    <label for="password">Password</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="confirmation" placeholder="Password (Confirmation)" name="confirmation" autocomplete="off" required>
+                    <label for="confirmation">Password (Confirmation)</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="name" placeholder="Name" name="name" autocomplete="off" required>
+                    <label for="name">Name</label>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-lg">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="supplementaryLink">
+        <p>Already have an account? <a href="/auth/login">Log in</a></p>
+    </div>
+{% endblock %}
